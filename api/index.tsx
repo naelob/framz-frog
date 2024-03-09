@@ -8,7 +8,7 @@ import axios from 'axios'
 export const app = new Frog({
   assetsPath: '/',
   basePath: '/api',
-  //hub: neynar({ apiKey: "NEYNAR_FROG_FM" }) /*'4E7D8D08-82FB-48B8-B2C6-2F83EE687E04'*/
+  //hub: neynar({ apiKey: "NEYNAR_FROG_FM" })
 })
 
 
