@@ -4,6 +4,7 @@ import { handle } from 'frog/vercel'
 import { getConnectedAddressForUser } from '../utils/fc.js'
 import { balanceOf, mintNft } from '../utils/mint.js'
 import axios from 'axios'
+import { logg } from '../utils/logging.js'
 
 export const app = new Frog({
   assetsPath: '/',
@@ -32,8 +33,9 @@ app.frame('/submit', async (c) => {
 
   //const { fid } = frameData!
   const address = await getConnectedAddressForUser(333857, buttonIndex! - 1);
-  
+  await logg(address)
   if(!address){
+    await logg(JSON.stringify("not address"))
     return c.res({
       action: '/',
       image: "https://sgp1.digitaloceanspaces.com/ggquestfiles/frames/qid_connect_tryagain_720.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=DO00RYMGYFQXVB448MHE%2F20240303%2Fsgp1%2Fs3%2Faws4_request&X-Amz-Date=20240303T044122Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=50f5fafaf4773d686ca47354511f76122d398772cfc39ff1c3fd07594b35d2c4",
@@ -44,9 +46,10 @@ app.frame('/submit', async (c) => {
   }
   
   const balance = await balanceOf(address);
+  await logg(JSON.stringify(balance))
   if (typeof balance === "number" && balance !== null && balance < 1) {
     const hash = await mintNft(address);
-
+    await logg(JSON.stringify(hash))
     if (!hash) {
       return c.res({
         action: '/',
