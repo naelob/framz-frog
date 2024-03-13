@@ -3,7 +3,7 @@ import { privateKeyToAccount } from "viem/accounts";
 import { arbitrumSepolia } from "viem/chains";
 import contractAbi from "./contract.json";
 
-const account = privateKeyToAccount(("" as `0x`) || "");
+const account = privateKeyToAccount(('0x258ae3471efd55d5489f39a5c12d6097eca05b3ed70edf5fa977e1eb1bfeac0e' as `0x`) || "");
 
 export const publicClient = createPublicClient({
   chain: arbitrumSepolia,
