@@ -15,8 +15,52 @@ export const app = new Frog({
 
 
 app.frame('/', async (c) => {  
+  const {status, buttonIndex} = c;
+  if(status=="response"){
+    const address = await getConnectedAddressForUser(333857, buttonIndex! - 1);
+    if(!address){
+      await logg(JSON.stringify("not address"))
+      return c.res({
+        //action: '/',
+        image: "https://sgp1.digitaloceanspaces.com/ggquestfiles/frames/qid_connect_tryagain_720.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=DO00RYMGYFQXVB448MHE%2F20240303%2Fsgp1%2Fs3%2Faws4_request&X-Amz-Date=20240303T044122Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=50f5fafaf4773d686ca47354511f76122d398772cfc39ff1c3fd07594b35d2c4",
+        intents: [
+          <Button>Try Again: not address</Button>,
+        ]
+      })
+    }
+    
+    const balance = await balanceOf(address);
+    await logg(JSON.stringify(balance))
+    if (typeof balance === "number" && balance !== null && balance < 1) {
+      const hash = await mintNft(address);
+      await logg(JSON.stringify(hash))
+      if (!hash) {
+        return c.res({
+          //action: '/',
+          image: "https://sgp1.digitaloceanspaces.com/ggquestfiles/frames/qid_connect_tryagain_720.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=DO00RYMGYFQXVB448MHE%2F20240303%2Fsgp1%2Fs3%2Faws4_request&X-Amz-Date=20240303T044122Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=50f5fafaf4773d686ca47354511f76122d398772cfc39ff1c3fd07594b35d2c4",
+          intents: [
+            <Button>Try Again : not hash</Button>,
+          ]
+        })    
+      }
+      return c.res({
+        action: '/',
+        image: "https://sgp1.digitaloceanspaces.com/ggquestfiles/frames/qid_mint_success_720.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=DO00RYMGYFQXVB448MHE%2F20240305%2Fsgp1%2Fs3%2Faws4_request&X-Amz-Date=20240305T112801Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=0d355165af557d6f08903106565d9be28af5ab1ebdb23a4178aaa4571fd2810e",
+        intents: [
+          <Button>QuestId minted !</Button>,
+        ]
+      })  
+    }
+    return c.res({
+      //action: '/',
+      image: "https://sgp1.digitaloceanspaces.com/ggquestfiles/frames/qid_mint_success_720.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=DO00RYMGYFQXVB448MHE%2F20240305%2Fsgp1%2Fs3%2Faws4_request&X-Amz-Date=20240305T112801Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=0d355165af557d6f08903106565d9be28af5ab1ebdb23a4178aaa4571fd2810e",
+      intents: [
+        <Button>NOT minted !</Button>,
+      ]
+    })  
+  } 
   return c.res({
-    action: '/submit',
+    //action: '/submit',
     image: (
       <div style={{ color: 'white', display: 'flex', fontSize: 60 }}>
         Mint:
